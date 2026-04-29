@@ -1,3 +1,4 @@
+# Build artifacts
 *.o
 *.obj
 *.exe
@@ -6,4 +7,23 @@
 *.so
 *.dylib
 
+# CLion / JetBrains
 .idea/
+cmake-build-*/
+
+# VS Code
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor backup files
+*~
+*.swp
+*.swo
+
+# Generated logs / output files
+*.log
+simulation_log.txt

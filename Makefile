@@ -1,28 +1,29 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++17 $(shell pkg-config --cflags sdl2)
+CXXFLAGS = -Wall -std=c++14 $(shell pkg-config --cflags sdl2)
 LDFLAGS  = $(shell pkg-config --libs sdl2)
 
 ifeq ($(OS),Windows_NT)
     TARGET = sdl2-test.exe
-    RM = del /Q /F
 else
     TARGET = sdl2-test
-    RM = rm -f
 endif
-
-
 
 all: $(TARGET)
 
-$(TARGET): main.o
-	$(CXX) main.o -o $@ $(LDFLAGS)
+# Auto-discover all .cpp files in src/
+SOURCES = $(wildcard src/*.cpp)
+OBJS    = $(notdir $(SOURCES:.cpp=.o))
 
-main.o: src/main.cpp
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+
+# Pattern rule: any X.o is built from src/X.cpp
+%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
-	$(RM) main.o $(TARGET)
+	rm -f *.o $(TARGET)
 
 .PHONY: run
 run: $(TARGET)
