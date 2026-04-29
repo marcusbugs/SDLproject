@@ -32,7 +32,6 @@ int main(int argc, char* argv[]) { //sdl wants args it runs some macro on it on 
     bool running = true;
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
-    Uint64 lastTime = SDL_GetTicks64();
 
     while (running) {
         SDL_Event event;
@@ -41,7 +40,6 @@ int main(int argc, char* argv[]) { //sdl wants args it runs some macro on it on 
                 running = false;
             }
         }
-        Uint64 now = SDL_GetTicks64();
 
         if (keys[SDL_SCANCODE_D]) square.x++;
         if (keys[SDL_SCANCODE_A]) square.x--;
