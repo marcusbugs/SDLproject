@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) { //sdl wants args it runs some macro on it on 
     }
     SDL_Rect square = {350, 250, 100, 100};
     bool running = true;
+    SDL_Rect square2 = {350, 250, 300, 200};
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -41,15 +42,18 @@ int main(int argc, char* argv[]) { //sdl wants args it runs some macro on it on 
             }
         }
 
-        if (keys[SDL_SCANCODE_D]) square.x++;
-        if (keys[SDL_SCANCODE_A]) square.x--;
-        if (keys[SDL_SCANCODE_W]) square.y--;
-        if (keys[SDL_SCANCODE_S]) square.y++;
+        if (keys[SDL_SCANCODE_D]) square2.x++;
+        if (keys[SDL_SCANCODE_A]) square2.x--;
+        if (keys[SDL_SCANCODE_W]) square2.y--;
+        if (keys[SDL_SCANCODE_S]) square2.y++;
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);  // white
         SDL_RenderFillRect(renderer, &square);
+
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);  // white
+        SDL_RenderFillRect(renderer, &square2);
 
         SDL_RenderPresent(renderer);
 
