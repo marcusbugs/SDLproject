@@ -11,7 +11,12 @@
  */
 
 #include "Application.hpp"
+#include "Color.hpp"
 #include <iostream>
+
+//constants and names and stuff
+const char* WINDOW_TITLE        = "gobin";
+const Color BG_COLOR(0, 30, 60, 255);        // background color
 
 Application::~Application() {
     if (renderer) SDL_DestroyRenderer(renderer);
@@ -26,7 +31,7 @@ bool Application::Init(int windowWidth, int windowHeight) {
         std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    window = SDL_CreateWindow("gobin",
+    window = SDL_CreateWindow(WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED, // x pos
         SDL_WINDOWPOS_CENTERED, //y pos
         windowWidth,
@@ -38,7 +43,7 @@ bool Application::Init(int windowWidth, int windowHeight) {
         return false;
     }
     renderer = SDL_CreateRenderer(window,
-        -1,
+        -1, // -1 is first avaiable driver probly open gl or sumfin
         SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cerr << "Could not create renderer! SDL Error: " << SDL_GetError() << std::endl;
@@ -61,14 +66,14 @@ void Application::Input() {
 
 void Application::Update() {
     Uint32 totalTime = SDL_GetTicks();
-    deltaTime = (totalTime-lastTime)/1000.0f;
+    deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
     //std::cout << "dt: " << deltaTime << std::endl;
     //std::cout << "time: " << totalTime << std::endl;
     lastTime = totalTime;
 }
 
 void Application::Render() {
-    SDL_SetRenderDrawColor(renderer, 0, 30, 60, 255);
+    SDL_SetRenderDrawColor(renderer, BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 }

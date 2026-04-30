@@ -37,6 +37,9 @@ struct Vec2 {
     Vec2 operator*(float scalar) const {
         return Vec2(x * scalar, y * scalar);
     }
+    float operator*(const Vec2& rvec) const {
+        return x * rvec.x + y * rvec.y;
+    }
     Vec2 operator/(float scalar) const {
         return Vec2(x / scalar, y / scalar);
     }
@@ -48,7 +51,7 @@ struct Vec2 {
     }
     bool normalize() {
         float l = length();
-        if (l < 0.0001f) return false;
+        if (l < 0.0001f) return false; //not 0 since it can break if very small too
         x /= l;
         y /= l;
         return true;

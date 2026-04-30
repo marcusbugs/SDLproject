@@ -18,6 +18,10 @@
 #include "Application.hpp"
 #include "Vec2.hpp"
 
+// constants n' stuff
+const int WINDOW_WIDTH  = 800;     // pixels, width  of the SDL window
+const int WINDOW_HEIGHT = 800;     // pixels, height of the SDL window
+
 int main(int argc, char* argv[]) {
     Vec2 a(10, 20);
     Vec2 b(20, -20);
@@ -28,7 +32,7 @@ int main(int argc, char* argv[]) {
 
     Application app;
 
-    if (!app.Init(800, 800)) return 1;
+    if (!app.Init(WINDOW_WIDTH, WINDOW_HEIGHT)) return 1;
 
     while (app.IsRunning()) {
         app.Input();
