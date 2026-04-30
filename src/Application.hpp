@@ -7,15 +7,13 @@
 
 #include <SDL2/SDL.h>
 
-class Renderer;
-
 class Application {
 
 private:
-
-    Renderer* renderer = nullptr;
+    SDL_Window*   window   = nullptr;
+    SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
-    Uint64 lastTime   = 0;
+    Uint32 lastTime   = 0;
 
 public:
     Application() = default;
