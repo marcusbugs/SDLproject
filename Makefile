@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++14 $(shell pkg-config --cflags sdl2)
-LDFLAGS  = $(shell pkg-config --libs sdl2)
+LDFLAGS  = $(shell pkg-config --libs sdl2) -mconsole
 
 ifeq ($(OS),Windows_NT)
     TARGET = sdl2-test.exe

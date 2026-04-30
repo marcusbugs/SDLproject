@@ -48,7 +48,11 @@ void Application::Input() {
 }
 
 void Application::Update() {
-
+    Uint32 totalTime = SDL_GetTicks();
+    deltaTime = (totalTime-lastTime)/1000.0f;
+    //std::cout << "dt: " << deltaTime << std::endl;
+    //std::cout << "time: " << totalTime << std::endl;
+    lastTime = totalTime;
 }
 
 void Application::Render() {

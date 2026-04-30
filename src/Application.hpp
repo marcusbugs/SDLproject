@@ -14,7 +14,7 @@ private:
     SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
-
+    float deltaTime = 0.0f;
 public:
     Application() = default;
     ~Application();
