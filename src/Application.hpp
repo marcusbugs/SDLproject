@@ -14,6 +14,8 @@
 #define _APPLICATION_H_
 
 #include <SDL2/SDL.h>
+#include "Object.hpp"
+#include "Vec2.hpp"
 
 class Application {
 
@@ -23,6 +25,7 @@ private:
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
     float deltaTime = 0.0f;
+    Object* testObject = nullptr;
 public:
     Application() = default;
     ~Application();
@@ -31,7 +34,7 @@ public:
     void Input();
     void Update();
     void Render();
-
+    void SetTestObject(Object* obj);
     bool IsRunning() const { return isRunning; }
 
 };

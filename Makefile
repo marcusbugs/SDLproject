@@ -23,10 +23,10 @@ $(TARGET): main.o Application.o Object.o
 main.o: src/main.cpp src/Application.hpp src/Vec2.hpp src/Color.hpp
 	$(CC) $(CFLAGS) -c src/main.cpp
 
-Application.o: src/Application.cpp src/Application.hpp src/Color.hpp
+Application.o: src/Application.cpp src/Application.hpp src/Color.hpp src/Object.hpp src/Vec2.hpp
 	$(CC) $(CFLAGS) -c src/Application.cpp
 
-Object.o: src/Object.cpp src/Object.hpp src/Vec2.hpp
+Object.o: src/Object.cpp src/Object.hpp src/Vec2.hpp src/Color.hpp
 	$(CC) $(CFLAGS) -c src/Object.cpp
 
 clean:

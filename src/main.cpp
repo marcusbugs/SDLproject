@@ -13,10 +13,12 @@
 
 #include <iostream>
 #include <ostream>
+#include <SDL2/SDL.h>
 
 #include "Color.hpp"
 #include "Application.hpp"
 #include "Vec2.hpp"
+#include "Object.hpp"
 
 // constants n' stuff
 const int WINDOW_WIDTH  = 800;     // pixels, width  of the SDL window
@@ -33,6 +35,9 @@ int main(int argc, char* argv[]) {
     Application app;
 
     if (!app.Init(WINDOW_WIDTH, WINDOW_HEIGHT)) return 1;
+
+    Object* ball = new Object(Vec2(400, 100), 30, 1.0f, Color(200, 150, 100));
+    app.SetTestObject(ball);
 
     while (app.IsRunning()) {
         app.Input();
