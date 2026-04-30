@@ -1,9 +1,17 @@
-//
-// Created by MJC11 on 4/29/2026.
-//
+/*
+ * Author:   Marcus Cassell
+ * Date:     April 29, 2026
+ * Revised:  April 30, 2026
+ * Purpose:  CSCI 221 Final Project -- 2D vector type
+ *
+ * Note:     Vec2 is intentionally a struct with public x and y.
+ *           Encapsulation is preserved at the higher-level
+ *           classes which have private data fields.
+ */
 
-#ifndef SDLPROJECT_VEC2_HPP
-#define SDLPROJECT_VEC2_HPP
+#ifndef _VEC2_H_
+#define _VEC2_H_
+
 #include <cmath>
 
 struct Vec2 {
@@ -46,4 +54,4 @@ struct Vec2 {
         return true;
     }
 };
-#endif //SDLPROJECT_VEC2_HPP
+#endif // _VEC2_H_

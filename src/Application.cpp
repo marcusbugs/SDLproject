@@ -1,3 +1,15 @@
+/*
+ * Author:   Marcus Cassell
+ * Date:     April 29, 2026
+ * Revised:  April 30, 2026
+ * Purpose:  CSCI 221 Final Project Application class.
+ *           Handles SDL, polling input events,
+ *           computing per-frame delta time, and rendering.
+ *
+ * Citations:
+ *   Gordie Novak
+ */
+
 #include "Application.hpp"
 #include <iostream>
 

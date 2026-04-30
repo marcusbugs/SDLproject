@@ -1,3 +1,16 @@
+/*
+ * Author:   Marcus Cassell
+ * Date:     April 29, 2026
+ * Revised:  April 30, 2026
+ * Purpose:  CSCI 221 Final Project -- SDL2 game with physics
+ *
+ * Citations:
+ *  Gordie novak
+ *
+ * Compile with:
+ *   make
+ */
+
 #include <iostream>
 #include <ostream>
 
