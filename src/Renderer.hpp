@@ -1,0 +1,8 @@
+//
+// Created by MJC11 on 4/29/2026.
+//
+
+#ifndef SDLPROJECT_RENDERER_HPP
+#define SDLPROJECT_RENDERER_HPP
+
+#endif //SDLPROJECT_RENDERER_HPP
