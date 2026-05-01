@@ -13,6 +13,7 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
+#include <vector>
 #include <SDL2/SDL.h>
 #include "Object.hpp"
 #include "Vec2.hpp"
@@ -25,7 +26,7 @@ private:
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
     float deltaTime = 0.0f;
-    Object* testObject = nullptr;
+    std::vector<Object*> objects;
 public:
     Application() = default;
     ~Application();
@@ -36,7 +37,10 @@ public:
     void Render();
     void SetTestObject(Object* obj);
     bool IsRunning() const { return isRunning; }
-
+    void addObject(Object* obj);
+    bool removeObject(int pos);
+    std::vector<Object*> getAllObjects();
+    float getDeltaTime();
 };
 
 

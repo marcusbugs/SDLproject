@@ -62,17 +62,6 @@ void Application::Input() {
             isRunning = false;
         }
     }
-    if (testObject != nullptr) {
-        const Uint8* keys = SDL_GetKeyboardState(nullptr);
-        Vec2 input(0, 0);
-        if (keys[SDL_SCANCODE_W]) input.y -= 1;   // up
-        if (keys[SDL_SCANCODE_S]) input.y += 1;   // down
-        if (keys[SDL_SCANCODE_A]) input.x -= 1;   // left
-        if (keys[SDL_SCANCODE_D]) input.x += 1;   // right
-
-        const float THRUST = 800.0f;   // pixels/sec^2
-        testObject->setAcceleration(input * THRUST);
-    }
 }
 
 void Application::Update() {
@@ -80,24 +69,40 @@ void Application::Update() {
     deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
     //std::cout << "dt: " << deltaTime << std::endl;
     //std::cout << "time: " << totalTime << std::endl;
-
-    lastTime = totalTime;
-    if (testObject != nullptr) {
-        testObject->update(deltaTime);
+    for (int i = 0; i< objects.size(); i++) {
+        objects[i]->update(deltaTime);
     }
+    lastTime = totalTime;
 }
 
 void Application::Render() {
     SDL_SetRenderDrawColor(renderer, BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
     SDL_RenderClear(renderer);
 
-    if (testObject != nullptr) {
-        testObject->render(renderer);
+    for (int i = 0; i < objects.size(); i++) {
+        objects[i]->render(renderer);
     }
 
     SDL_RenderPresent(renderer);
 }
 
-void Application::SetTestObject(Object* obj) {
-    testObject = obj;
+void Application::addObject(Object *obj) {
+    objects.push_back(obj);
 }
+
+bool Application::removeObject(int pos) {
+    if (!objects.empty()) {
+        objects.erase(objects.begin()+pos-2);
+        return true;
+    }
+    return false;
+}
+
+std::vector<Object*> Application::getAllObjects() {
+    return objects;
+}
+
+float Application::getDeltaTime() {
+    return deltaTime;
+}
+
