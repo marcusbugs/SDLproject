@@ -14,6 +14,7 @@
 #include "Color.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
 //constants and names and stuff
 const char* WINDOW_TITLE        = "gobin";
 const Color BG_COLOR(0, 30, 60, 255);        // background color
@@ -51,7 +52,7 @@ bool Application::Init(int windowWidth, int windowHeight) {
         return false;
     }
 
-    lastTime = SDL_GetTicks();
+    lastTime = SDL_GetTicks64();
     isRunning = true;
     return true;
 }

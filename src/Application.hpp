@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
 #include "Object.hpp"
 #include "Vec2.hpp"
 
@@ -24,7 +25,7 @@ public:
     SDL_Window*   window   = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
-    uint32_t lastTime   = 0;
+    uint64_t lastTime   = 0;
     float deltaTime = 0.0f;
     std::vector<Object*> objects;
 public:
