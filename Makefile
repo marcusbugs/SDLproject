@@ -17,11 +17,14 @@ else
     LDFLAGS = $(shell pkg-config --libs sdl2)
 endif
 
-$(TARGET): main.o Application.o Object.o
-	$(CC) $(CFLAGS) -o $(TARGET) main.o Application.o Object.o $(LDFLAGS)
+$(TARGET): main.o Application.o Object.o StaticFont.o
+	$(CC) $(CFLAGS) -o $(TARGET) main.o Application.o Object.o StaticFont.o $(LDFLAGS)
 
-main.o: src/main.cpp src/Application.hpp src/Vec2.hpp src/Color.hpp
+main.o: src/main.cpp src/Application.hpp src/Vec2.hpp src/Color.hpp gorbie/StaticFont.hpp
 	$(CC) $(CFLAGS) -c src/main.cpp
+
+StaticFont.o: gorbie/StaticFont.cpp gorbie/StaticFont.hpp
+	$(CC) $(CFLAGS) -c "gorbie/StaticFont.cpp"
 
 Application.o: src/Application.cpp src/Application.hpp src/Color.hpp src/Object.hpp src/Vec2.hpp
 	$(CC) $(CFLAGS) -c src/Application.cpp
@@ -34,3 +37,4 @@ clean:
 
 run: $(TARGET)
 	./$(TARGET)
+

@@ -13,6 +13,7 @@
 #define _VEC2_H_
 
 #include <cmath>
+#include <SDL2/SDL.h>
 
 struct Vec2 {
     float x, y;
@@ -55,6 +56,10 @@ struct Vec2 {
         x /= l;
         y /= l;
         return true;
+    }
+
+    operator SDL_Point() {
+        return SDL_Point{static_cast<int>(x), static_cast<int>(y)};
     }
 };
 #endif // _VEC2_H_

@@ -44,7 +44,8 @@ bool Application::Init(int windowWidth, int windowHeight) {
     }
     renderer = SDL_CreateRenderer(window,
         -1, // -1 is first avaiable driver probly open gl or sumfin
-        SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+        SDL_RENDERER_PRESENTVSYNC |
+        SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cerr << "Could not create renderer! SDL Error: " << SDL_GetError() << std::endl;
         return false;
@@ -65,11 +66,11 @@ void Application::Input() {
 }
 
 void Application::Update() {
-    Uint32 totalTime = SDL_GetTicks();
+    Uint64 totalTime = SDL_GetTicks64();
     deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
     //std::cout << "dt: " << deltaTime << std::endl;
     //std::cout << "time: " << totalTime << std::endl;
-    for (int i = 0; i< objects.size(); i++) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->update(deltaTime);
     }
     lastTime = totalTime;
@@ -79,10 +80,12 @@ void Application::Render() {
     SDL_SetRenderDrawColor(renderer, BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
     SDL_RenderClear(renderer);
 
-    for (int i = 0; i < objects.size(); i++) {
+    for (size_t i = 0; i < objects.size(); i++) {
         objects[i]->render(renderer);
     }
+}
 
+void Application::present() {
     SDL_RenderPresent(renderer);
 }
 

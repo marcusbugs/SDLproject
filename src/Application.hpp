@@ -20,11 +20,11 @@
 
 class Application {
 
-private:
+public:
     SDL_Window*   window   = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
-    Uint32 lastTime   = 0;
+    uint32_t lastTime   = 0;
     float deltaTime = 0.0f;
     std::vector<Object*> objects;
 public:
@@ -35,6 +35,7 @@ public:
     void Input();
     void Update();
     void Render();
+    void present();
     void SetTestObject(Object* obj);
     bool IsRunning() const { return isRunning; }
     void addObject(Object* obj);
