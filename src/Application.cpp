@@ -52,7 +52,7 @@ bool Application::Init(int windowWidth, int windowHeight) {
         return false;
     }
 
-    lastTime = SDL_GetTicks64();
+    lastTime = SDL_GetTicks();   // SDL_GetTicks64 needs SDL >= 2.0.18; lab is older
     isRunning = true;
     return true;
 }
