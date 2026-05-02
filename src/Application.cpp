@@ -52,7 +52,7 @@ bool Application::Init(int windowWidth, int windowHeight) {
         return false;
     }
 
-    lastTime = SDL_GetTicks();   // SDL_GetTicks64 needs SDL >= 2.0.18; lab is older
+    lastTime = SDL_GetTicks();
     isRunning = true;
     return true;
 }
@@ -67,7 +67,7 @@ void Application::Input() {
 }
 
 void Application::Update() {
-    Uint64 totalTime = SDL_GetTicks64();
+    Uint32 totalTime = SDL_GetTicks();
     deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
     //std::cout << "dt: " << deltaTime << std::endl;
     //std::cout << "time: " << totalTime << std::endl;
