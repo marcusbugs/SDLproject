@@ -16,33 +16,45 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
-#include "Object.hpp"
+
+#include "Config.hpp"
+#include "Goblin.hpp"
 #include "Vec2.hpp"
+#include "Config.hpp"
+
+const int FPS_SAMPLE_COUNT = 60;
 
 class Application {
 
-public:
+private:
     SDL_Window*   window   = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
-    uint64_t lastTime   = 0;
+    Uint32 lastTime   = 0;
     float deltaTime = 0.0f;
-    std::vector<Object*> objects;
+    std::vector<Goblin*> objects;
+
+    Config config;
+
+    float fpsSamples[FPS_SAMPLE_COUNT];
+    int fpsIndex = 0;
+    int smoothedFPS = 0;
 public:
     Application() = default;
     ~Application();
-
-    bool Init(int windowWidth, int windowHeight);
+    SDL_Renderer* getRenderer();
+    SDL_Window* getWindow();
+    bool Init(const Config& cfg);
     void Input();
     void Update();
     void Render();
     void present();
-    void SetTestObject(Object* obj);
     bool IsRunning() const { return isRunning; }
-    void addObject(Object* obj);
+    void addObject(Goblin* obj);
     bool removeObject(int pos);
-    std::vector<Object*> getAllObjects();
+    std::vector<Goblin*> getAllObjects();
     float getDeltaTime();
+    int getFrameRate();
 };
 
 

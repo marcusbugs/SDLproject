@@ -1,14 +1,14 @@
 /*
  * Author:   Marcus Cassell
  * Date:     April 30, 2026
- * Purpose:  CSCI 221 Final Project -- implementation of the Object class.
+ * Purpose:  CSCI 221 Final Project -- implementation of the Goblin class.
  *
  */
 
-#include "Object.hpp"
+#include "Goblin.hpp"
 #include <SDL2/SDL.h>
 
-Object::Object(Vec2 pos, float r, float m, Color c) {
+Goblin::Goblin(Vec2 pos, float r, float m, Color c) {
     position = pos;
     velocity = Vec2(0,0);
     acceleration = Vec2(0,0);
@@ -17,42 +17,42 @@ Object::Object(Vec2 pos, float r, float m, Color c) {
     mass = m;
 }
 
-Color Object::getColor() const {
+Color Goblin::getColor() const {
     return color;
 }
-void Object::setColor(Color c) {
+void Goblin::setColor(Color c) {
     color = c;
 }
-float Object::getMass() const {
+float Goblin::getMass() const {
     return mass;
 }
-void Object::setMass(float m) {
+void Goblin::setMass(float m) {
     mass = m;
 }
-float Object::getRadius() const {
+float Goblin::getRadius() const {
     return radius;
 }
 
-Vec2 Object::getPosition() const {
+Vec2 Goblin::getPosition() const {
     return position;
 }
-void Object::setPosition(Vec2 pos) {
+void Goblin::setPosition(Vec2 pos) {
     position = pos;
 }
-Vec2 Object::getVelocity() const {
+Vec2 Goblin::getVelocity() const {
     return velocity;
 }
-void Object::setVelocity(Vec2 v) {
+void Goblin::setVelocity(Vec2 v) {
     velocity = v;
 }
-Vec2 Object::getAcceleration() const {
+Vec2 Goblin::getAcceleration() const {
     return acceleration;
 }
-void Object::setAcceleration(Vec2 a) {
+void Goblin::setAcceleration(Vec2 a) {
     acceleration = a;
 }
 
-void Object::render(SDL_Renderer *renderer) const {
+void Goblin::render(SDL_Renderer *renderer) const {
     SDL_Rect rect;
     rect.x = (int)(position.x-radius);
     rect.y = (int)(position.y-radius);
@@ -62,7 +62,7 @@ void Object::render(SDL_Renderer *renderer) const {
     SDL_RenderFillRect(renderer, &rect);
 }
 
-void Object::update(float dt) {
+void Goblin::update(float dt) {
     velocity += acceleration * dt;
     position += velocity * dt;
     acceleration = Vec2(0,0);

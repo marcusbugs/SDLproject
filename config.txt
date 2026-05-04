@@ -1,0 +1,5 @@
+# my goblin game settings
+window_width = 1024
+window_height = 600
+show_fps = 0
+background_color = 50, 0, 80

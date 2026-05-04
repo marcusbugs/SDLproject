@@ -17,20 +17,23 @@ else
     LDFLAGS = $(shell pkg-config --libs sdl2)
 endif
 
-$(TARGET): main.o Application.o Object.o StaticFont.o
-	$(CC) $(CFLAGS) -o $(TARGET) main.o Application.o Object.o StaticFont.o $(LDFLAGS)
+$(TARGET): main.o Application.o Goblin.o StaticFont.o Config.o
+	$(CC) $(CFLAGS) -o $(TARGET) main.o Application.o Goblin.o StaticFont.o Config.o $(LDFLAGS)
 
-main.o: src/main.cpp src/Application.hpp src/Vec2.hpp src/Color.hpp gorbie/StaticFont.hpp
+main.o: src/main.cpp src/Application.hpp src/Vec2.hpp src/Color.hpp gorbie/StaticFont.hpp src/Config.hpp
 	$(CC) $(CFLAGS) -c src/main.cpp
 
 StaticFont.o: gorbie/StaticFont.cpp gorbie/StaticFont.hpp
 	$(CC) $(CFLAGS) -c "gorbie/StaticFont.cpp"
 
-Application.o: src/Application.cpp src/Application.hpp src/Color.hpp src/Object.hpp src/Vec2.hpp
+Application.o: src/Application.cpp src/Application.hpp src/Color.hpp src/Goblin.hpp src/Vec2.hpp src/Config.hpp
 	$(CC) $(CFLAGS) -c src/Application.cpp
 
-Object.o: src/Object.cpp src/Object.hpp src/Vec2.hpp src/Color.hpp
-	$(CC) $(CFLAGS) -c src/Object.cpp
+Goblin.o: src/Goblin.cpp src/Goblin.hpp src/Vec2.hpp src/Color.hpp
+	$(CC) $(CFLAGS) -c src/Goblin.cpp
+
+Config.o: src/Config.cpp src/Config.hpp src/Color.hpp
+	$(CC) $(CFLAGS) -c src/Config.cpp
 
 clean:
 	rm -f *.o $(TARGET)

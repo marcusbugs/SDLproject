@@ -1,19 +1,19 @@
 /*
  * Author:   Marcus Cassell
  * Date:     April 30, 2026
- * Purpose:  CSCI 221 Final Project -- declares the Object class
+ * Purpose:  CSCI 221 Final Project -- declares the Goblin class
  *
  */
 
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#ifndef _GOBLIN_H_
+#define _GOBLIN_H_
 
 #include "Color.hpp"
 #include "Vec2.hpp"
 #include <SDL2/SDL.h>
 
 
-class Object {
+class Goblin {
     private:
         Vec2 position;
         Vec2 velocity;
@@ -22,7 +22,7 @@ class Object {
         float radius = 0;
         Color color;
     public:
-        Object(Vec2 pos, float r, float m, Color c);
+        Goblin(Vec2 pos, float r, float m, Color c);
         Vec2 getPosition() const;
         void setPosition(Vec2 pos);
         float getMass() const;
@@ -39,4 +39,4 @@ class Object {
 };
 
 
-#endif // _OBJECT_H_
+#endif // _GOBLIN_H_
