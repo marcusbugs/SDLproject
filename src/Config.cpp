@@ -10,6 +10,10 @@
 #include <cctype>
 #include <fstream>
 
+static bool parseBool(const std::string& value) {
+    return (value == "true" || value == "1" || value == "yes" || value == "Y");
+}
+
 bool Config::loadConfig(const char* path) {
     std::ifstream file(path);
     if(!file.is_open()) {
@@ -38,6 +42,7 @@ bool Config::loadConfig(const char* path) {
             std::cerr << "Line has no =" << line <<std::endl;
             continue;
         }
+
         std::string key = line.substr(0, pos);
         std::string value = line.substr(pos + 1);
 
@@ -48,7 +53,7 @@ bool Config::loadConfig(const char* path) {
             windowHeight = std::stoi(value);
         }
         else if (key == "show_fps") {
-            showFps = std::stoi(value);
+            showFps = parseBool(value);
         } else if (key == "background_color") {
             int r = 0;
             int g = 0;
@@ -57,8 +62,13 @@ bool Config::loadConfig(const char* path) {
             std::stringstream ss(value);
             ss >> r >> comma >> g >> comma >> b;
             backgroundColor = Color((Uint8)r, (Uint8)g, (Uint8)b);
-        }
-        else {
+        } else if (key == "vsync") {
+            vsync = parseBool(value);
+        } else if (key == "fullscreen") {
+            fullscreen = parseBool(value);
+        } else if (key == "window_resizing") {
+            windowResizing = parseBool(value);
+        } else {
             std::cerr << "Unknown key: " << key << std::endl;
         }
 

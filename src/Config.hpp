@@ -12,13 +12,13 @@
 #include "Color.hpp"
 
 struct Config {
-    int   windowWidth      = 800;
-    int   windowHeight     = 800;
+    int   windowWidth      = 1600;
+    int   windowHeight     = 1000;
     bool  showFps          = false;
     Color backgroundColor  = Color(0, 30, 60);
-    float gravityStrength  = 100.0f;
-    int   goblinCount      = 10;
-    std::string goblinFile = "goblins.txt";
+    bool vsync = true;
+    bool fullscreen = false;
+    bool windowResizing = false;
 
     bool loadConfig(const char* path);
 };

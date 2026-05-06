@@ -9,11 +9,11 @@ CFLAGS = -Wall -std=c++14 $(shell pkg-config --cflags sdl2)
 
 ifeq ($(OS),Windows_NT)
     # Windows: keep .exe extension and force a console window so std::cout works.
-    TARGET  = sdl2-test.exe
+    TARGET  = goblin-game.exe
     LDFLAGS = $(shell pkg-config --libs sdl2) -mconsole
 else
     # Linux / macOS
-    TARGET  = sdl2-test
+    TARGET  = goblin-game
     LDFLAGS = $(shell pkg-config --libs sdl2)
 endif
 

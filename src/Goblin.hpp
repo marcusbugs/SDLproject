@@ -21,6 +21,7 @@ class Goblin {
         float mass = 0;
         float radius = 0;
         Color color;
+        SDL_Texture* texture = nullptr;
     public:
         Goblin(Vec2 pos, float r, float m, Color c);
         Vec2 getPosition() const;
@@ -36,6 +37,8 @@ class Goblin {
         Color getColor() const;
         void update(float dt);
         void render(SDL_Renderer* renderer) const;
+        ~Goblin();
+        bool loadTexture(SDL_Renderer* renderer, const char* path);
 };
 
 

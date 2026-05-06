@@ -37,21 +37,29 @@ bool Application::Init(const Config& cfg) {
         std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
+
+    Uint32 windowFlags = 0;                           // start with nothing
+    if (cfg.windowResizing) windowFlags |= SDL_WINDOW_RESIZABLE;
+    if (cfg.fullscreen)     windowFlags |= SDL_WINDOW_FULLSCREEN;
+
     window = SDL_CreateWindow(WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED, // x pos
         SDL_WINDOWPOS_CENTERED, //y pos
         cfg.windowWidth,
         cfg.windowHeight,
-        SDL_WINDOW_RESIZABLE
+        windowFlags
         );
     if (!window) {
         std::cerr << "Could not create window! SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
+
+    Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;   // always want this
+    if (cfg.vsync) rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+
     renderer = SDL_CreateRenderer(window,
         -1, // -1 is first avaiable driver probly open gl or sumfin
-        SDL_RENDERER_PRESENTVSYNC |
-        SDL_RENDERER_ACCELERATED);
+        rendererFlags);
     if (!renderer) {
         std::cerr << "Could not create renderer! SDL Error: " << SDL_GetError() << std::endl;
         return false;
@@ -80,10 +88,11 @@ void Application::Update() {
     deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
     //std::cout << "dt: " << deltaTime << std::endl;
     //std::cout << "time: " << totalTime << std::endl;
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->update(deltaTime);
+    for (size_t i = 0; i < goblins.size(); i++) {
+        goblins[i]->update(deltaTime);
     }
     lastTime = totalTime;
+
     fpsSamples[fpsIndex] = (1.0f/deltaTime);
     fpsIndex++;
     fpsIndex %= FPS_SAMPLE_COUNT;
@@ -99,22 +108,21 @@ void Application::Render() {
     SDL_RenderClear(renderer);
 
     //HUD
+    if (config.showFps) {
+        std::stringstream fps;
+        fps << "FPS: " << smoothedFPS;
+        gn::StaticFont::setColor(255, 255, 255);
+        gn::StaticFont::setScale(3);
+        gn::StaticFont::render(
+            renderer,
+            fps.str().c_str(),
+            {10,10}
+        );
+    }
 
-    std::stringstream fps;
 
-    fps << "FPS: " << smoothedFPS;
-
-    gn::StaticFont::setColor(255, 255, 255);
-    gn::StaticFont::setScale(3);
-    gn::StaticFont::render(
-        renderer,
-        fps.str().c_str(),
-        {10,10}
-    );
-
-
-    for (size_t i = 0; i < objects.size(); i++) {
-        objects[i]->render(renderer);
+    for (size_t i = 0; i < goblins.size(); i++) {
+        goblins[i]->render(renderer);
     }
 }
 
@@ -122,25 +130,25 @@ void Application::present() {
     SDL_RenderPresent(renderer);
 }
 
-void Application::addObject(Goblin *obj) {
-    objects.push_back(obj);
+void Application::addGoblin(Goblin *obj) {
+    goblins.push_back(obj);
 }
 
-bool Application::removeObject(int pos) {
-    if (pos < 0 || pos >= (int)objects.size()) {
+bool Application::removeGoblin(int pos) {
+    if (pos < 0 || pos >= (int)goblins.size()) {
         return false;
     }
 
-    if (!objects.empty()) {
-        objects.erase(objects.begin()+pos);
+    if (!goblins.empty()) {
+        goblins.erase(goblins.begin()+pos);
         return true;
     }
 
     return false;
 }
 
-std::vector<Goblin*> Application::getAllObjects() {
-    return objects;
+std::vector<Goblin*> Application::getAllGoblins() {
+    return goblins;
 }
 
 float Application::getDeltaTime() {

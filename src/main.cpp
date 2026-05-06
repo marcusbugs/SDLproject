@@ -37,12 +37,26 @@ int main(int argc, char* argv[]) {
 
     gn::StaticFont::initialize(app.getRenderer()); //< Initialize the font renderer.
 
+    Goblin* g1 = new Goblin(Vec2(400, 100), 200, 1.0f, Color(255, 200, 100));
+    g1->loadTexture(app.getRenderer(), "bogos/gobin.bmp");
+    g1->setVelocity(Vec2(60, 0));
+    app.addGoblin(g1);
+
+    Goblin* g2 = new Goblin(Vec2(800, 200), 160, 1.0f, Color(100, 255, 200));
+    g2->loadTexture(app.getRenderer(), "bogos/gobin2.bmp");
+    g2->setVelocity(Vec2(-40, 30));
+    app.addGoblin(g2);
+
+    Goblin* g3 = new Goblin(Vec2(800, 500), 200, 1.0f, Color(100, 255, 200));
+    g3->loadTexture(app.getRenderer(), "bogos/normal_gobbb.bmp");
+    g3->setVelocity(Vec2(50, -10));
+    app.addGoblin(g3);
+
+
     while (app.IsRunning()) {
         app.Input();
         app.Update();
         app.Render();
-
-
 
         app.present();
 

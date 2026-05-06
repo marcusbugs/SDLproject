@@ -32,7 +32,7 @@ private:
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
     float deltaTime = 0.0f;
-    std::vector<Goblin*> objects;
+    std::vector<Goblin*> goblins;
 
     Config config;
 
@@ -50,9 +50,9 @@ public:
     void Render();
     void present();
     bool IsRunning() const { return isRunning; }
-    void addObject(Goblin* obj);
-    bool removeObject(int pos);
-    std::vector<Goblin*> getAllObjects();
+    void addGoblin(Goblin* obj);
+    bool removeGoblin(int pos);
+    std::vector<Goblin*> getAllGoblins();
     float getDeltaTime();
     int getFrameRate();
 };
