@@ -81,6 +81,7 @@ void Application::Input() {
             isRunning = false;
         }
     }
+    SDL_GetMouseState(&mouseX,&mouseY);
 }
 
 void Application::Update() {
@@ -108,17 +109,18 @@ void Application::Render() {
     SDL_RenderClear(renderer);
 
     //HUD
+    std::stringstream GUI;
     if (config.showFps) {
-        std::stringstream fps;
-        fps << "FPS: " << smoothedFPS;
-        gn::StaticFont::setColor(255, 255, 255);
-        gn::StaticFont::setScale(3);
-        gn::StaticFont::render(
-            renderer,
-            fps.str().c_str(),
-            {10,10}
-        );
+        GUI << "FPS: " << smoothedFPS << std::endl;
     }
+    GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
+    gn::StaticFont::setColor(255, 255, 255);
+    gn::StaticFont::setScale(3);
+    gn::StaticFont::render(
+        renderer,
+        GUI.str().c_str(),
+        {10,10}
+    );
 
 
     for (size_t i = 0; i < goblins.size(); i++) {

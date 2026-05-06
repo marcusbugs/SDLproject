@@ -58,6 +58,9 @@ int main(int argc, char* argv[]) {
         app.Update();
         app.Render();
 
+        g1->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g1->getPosition());
+        g2->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g2->getPosition());
+        g3->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g3->getPosition());
         app.present();
 
     }

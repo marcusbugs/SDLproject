@@ -33,7 +33,8 @@ private:
     Uint32 lastTime   = 0;
     float deltaTime = 0.0f;
     std::vector<Goblin*> goblins;
-
+    int mouseX;
+    int mouseY;
     Config config;
 
     float fpsSamples[FPS_SAMPLE_COUNT];
@@ -55,6 +56,9 @@ public:
     std::vector<Goblin*> getAllGoblins();
     float getDeltaTime();
     int getFrameRate();
+
+    int getMouseX() const {return mouseX; };
+    int getMouseY() const {return mouseY; };
 };
 
 
