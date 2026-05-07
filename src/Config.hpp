@@ -14,7 +14,7 @@
 struct Config {
     int   windowWidth      = 1600;
     int   windowHeight     = 1000;
-    bool  showFps          = false;
+    bool  showStats          = false;
     Color backgroundColor  = Color(0, 30, 60);
     bool vsync = true;
     bool fullscreen = false;

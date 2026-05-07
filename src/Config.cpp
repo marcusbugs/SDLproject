@@ -52,8 +52,8 @@ bool Config::loadConfig(const char* path) {
         else if (key == "window_height") {
             windowHeight = std::stoi(value);
         }
-        else if (key == "show_fps") {
-            showFps = parseBool(value);
+        else if (key == "show_stats") {
+            showStats = parseBool(value);
         } else if (key == "background_color") {
             int r = 0;
             int g = 0;

@@ -27,6 +27,10 @@ Application::~Application() {
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
     SDL_Quit();
+    for (size_t i = 0; i < goblins.size(); i++) {
+        delete goblins[i];
+    }
+    goblins.clear();
 }
 
 
@@ -65,10 +69,6 @@ bool Application::Init(const Config& cfg) {
         return false;
     }
 
-    for (int i = 0; i < FPS_SAMPLE_COUNT; i++) {
-        fpsSamples[i] = 0;
-    }
-
     lastTime = SDL_GetTicks();
     isRunning = true;
     return true;
@@ -86,22 +86,34 @@ void Application::Input() {
 
 void Application::Update() {
     Uint32 totalTime = SDL_GetTicks();
-    deltaTime = (totalTime - lastTime) / 1000.0f; // 1000ms per second
-    //std::cout << "dt: " << deltaTime << std::endl;
-    //std::cout << "time: " << totalTime << std::endl;
-    for (size_t i = 0; i < goblins.size(); i++) {
-        goblins[i]->update(deltaTime);
-    }
+    deltaTime = static_cast<float>(totalTime - lastTime) / 1000.0f;   // ms -> seconds
     lastTime = totalTime;
 
-    fpsSamples[fpsIndex] = (1.0f/deltaTime);
-    fpsIndex++;
-    fpsIndex %= FPS_SAMPLE_COUNT;
-    float sum = 0;
-    for (int i = 0; i < FPS_SAMPLE_COUNT; i++) {
-        sum += fpsSamples[i];
+    for (size_t i = 0; i < goblins.size(); i++) {
+        goblins[i]->update(deltaTime);
+        Vec2 pos = goblins[i]->getPosition();
+        Vec2 vel = goblins[i]->getVelocity();
+        float r = goblins[i]->getRadius();
+        int w = config.windowWidth;
+        int h = config.windowHeight;
+        // 0.5 is dampening forbounce
+        if (pos.x - r < 0)   { pos.x = r;     vel.x = -0.5f*vel.x; }
+        if (pos.x + r > w)   { pos.x = w - r; vel.x = -0.5f*vel.x; }
+        if (pos.y - r < 0)   { pos.y = r;     vel.y = -0.5f*vel.y; }
+        if (pos.y + r > h)   { pos.y = h - r; vel.y = -0.5f*vel.y; }
+
+        goblins[i]->setPosition(pos);
+        goblins[i]->setVelocity(vel);
     }
-    smoothedFPS = sum / FPS_SAMPLE_COUNT;
+
+    frameCounter++;
+    fpsTimer += deltaTime;
+    if (fpsTimer >= FPS_SAMPLE_TIME) {
+        smoothedFPS = frameCounter*(1.0f/FPS_SAMPLE_TIME);
+        fpsTimer -= FPS_SAMPLE_TIME;
+        frameCounter = 0;
+    }
+
 }
 
 void Application::Render() {
@@ -110,17 +122,18 @@ void Application::Render() {
 
     //HUD
     std::stringstream GUI;
-    if (config.showFps) {
-        GUI << "FPS: " << smoothedFPS << std::endl;
+    if (config.showStats) {
+        GUI << "FPS: " << smoothedFPS << std::endl; // fps
+        // mouse pos
+        GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
+        gn::StaticFont::setColor(255, 255, 255);
+        gn::StaticFont::setScale(3);
+        gn::StaticFont::render(
+            renderer,
+            GUI.str().c_str(),
+            {15,15}
+        );
     }
-    GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
-    gn::StaticFont::setColor(255, 255, 255);
-    gn::StaticFont::setScale(3);
-    gn::StaticFont::render(
-        renderer,
-        GUI.str().c_str(),
-        {10,10}
-    );
 
 
     for (size_t i = 0; i < goblins.size(); i++) {
@@ -142,6 +155,7 @@ bool Application::removeGoblin(int pos) {
     }
 
     if (!goblins.empty()) {
+        delete goblins[pos];
         goblins.erase(goblins.begin()+pos);
         return true;
     }

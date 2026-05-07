@@ -20,9 +20,8 @@
 #include "Config.hpp"
 #include "Goblin.hpp"
 #include "Vec2.hpp"
-#include "Config.hpp"
 
-const int FPS_SAMPLE_COUNT = 60;
+const float FPS_SAMPLE_TIME = 0.5;
 
 class Application {
 
@@ -31,15 +30,14 @@ private:
     SDL_Renderer* renderer = nullptr;
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
-    float deltaTime = 0.0f;
+    float  deltaTime  = 0.0f;
     std::vector<Goblin*> goblins;
-    int mouseX;
-    int mouseY;
+    int mouseX =0;
+    int mouseY =0;
     Config config;
-
-    float fpsSamples[FPS_SAMPLE_COUNT];
-    int fpsIndex = 0;
     int smoothedFPS = 0;
+    int frameCounter = 0;
+    float fpsTimer = 0.0f;
 public:
     Application() = default;
     ~Application();

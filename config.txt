@@ -2,7 +2,7 @@
 # my goblin game settings
 window_width   = 1440
 window_height = 900
-show_fps = false
+show_stats = true
 background_color = 50, 20, 50
 
 #SDL SETTINGS

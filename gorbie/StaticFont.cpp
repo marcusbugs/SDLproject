@@ -390,7 +390,7 @@ void gn::StaticFont::render(SDL_Renderer* renderer, const char text[], const SDL
 		} else if (c == '\n') {
 			// Otherwise if newline, move draw cursor down
 			dst.x = pos.x;
-			dst.y += character_rects[26].h * font_scale;
+			dst.y += character_rects[26].h * (font_scale*1.25f);
 		}
 	}
 }
