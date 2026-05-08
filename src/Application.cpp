@@ -31,6 +31,7 @@ Application::~Application() {
         delete goblins[i];
     }
     goblins.clear();
+    delete player;
 }
 
 
@@ -106,11 +107,44 @@ void Application::Update() {
         goblins[i]->setVelocity(vel);
     }
 
+
+    if (player != nullptr) {
+        Vec2 pos = player->getPosition();
+        Vec2 vel = player->getVelocity();
+        float r = player->getRadius();
+        int w = config.windowWidth;
+        int h = config.windowHeight;
+        // 0.5 is dampening forbounce
+        if (pos.x - r < 0)   { pos.x = r;     vel.x = -0.5f*vel.x; }
+        if (pos.x + r > w)   { pos.x = w - r; vel.x = -0.5f*vel.x; }
+        if (pos.y - r < 0)   { pos.y = r;     vel.y = -0.5f*vel.y; }
+        if (pos.y + r > h)   { pos.y = h - r; vel.y = -0.5f*vel.y; }
+
+        player->setPosition(pos);
+        player->setVelocity(vel);
+
+        player->input(SDL_GetKeyboardState(nullptr));
+        player->update(deltaTime);
+    }
+
+
+// update FPS counter
     frameCounter++;
     fpsTimer += deltaTime;
     if (fpsTimer >= FPS_SAMPLE_TIME) {
         smoothedFPS = frameCounter*(1.0f/FPS_SAMPLE_TIME);
         fpsTimer -= FPS_SAMPLE_TIME;
+        Goblin* g = new Goblin(Vec2(config.windowWidth/2,config.windowHeight/2), 64, 1, Color(10,10,10));
+        if (frameCounter%3 == 0) {
+            g->loadTexture(renderer, "bogos/freaky goblin.bmp");
+        }
+        if (frameCounter%3 == 1) {
+            g->loadTexture(renderer, "bogos/normal_gobbb.bmp");
+        }
+        if (frameCounter%3 == 2) {
+            g->loadTexture(renderer, "bogos/gobin2.bmp");
+        }
+        goblins.push_back(g);
         frameCounter = 0;
     }
 
@@ -138,6 +172,10 @@ void Application::Render() {
 
     for (size_t i = 0; i < goblins.size(); i++) {
         goblins[i]->render(renderer);
+    }
+
+    if (player != nullptr) {
+        player->render(renderer);
     }
 }
 
@@ -182,4 +220,14 @@ SDL_Window* Application::getWindow() {
 int Application::getFrameRate() {
     return smoothedFPS;
 }
+
+void Application::setPlayer(Player* p) {
+    player = p;
+}
+
+Player *Application::getPlayer() const {
+    return player;
+}
+
+
 

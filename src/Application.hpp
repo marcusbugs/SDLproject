@@ -17,11 +17,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 
+#include "Player.hpp"
 #include "Config.hpp"
 #include "Goblin.hpp"
 #include "Vec2.hpp"
 
-const float FPS_SAMPLE_TIME = 0.5;
+const float FPS_SAMPLE_TIME = 2;
 
 class Application {
 
@@ -31,9 +32,13 @@ private:
     bool   isRunning  = false;
     Uint32 lastTime   = 0;
     float  deltaTime  = 0.0f;
+
     std::vector<Goblin*> goblins;
+    Player* player = nullptr;
+
     int mouseX =0;
     int mouseY =0;
+
     Config config;
     int smoothedFPS = 0;
     int frameCounter = 0;
@@ -54,6 +59,9 @@ public:
     std::vector<Goblin*> getAllGoblins();
     float getDeltaTime();
     int getFrameRate();
+
+    void setPlayer(Player* p);
+    Player* getPlayer() const;
 
     int getMouseX() const {return mouseX; };
     int getMouseY() const {return mouseY; };

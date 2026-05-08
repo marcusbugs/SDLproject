@@ -6,6 +6,6 @@ show_stats = true
 background_color = 50, 20, 50
 
 #SDL SETTINGS
-vsync = true
+vsync = false
 fullscreen = false
 window_resizing = true

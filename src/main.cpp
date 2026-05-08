@@ -36,6 +36,10 @@ int main(int argc, char* argv[]) {
 
     if (!app.Init(cfg)) return 1;
 
+    Player* player = new Player(Vec2(800, 500), 100, 1000.0f, 100);
+    player->loadTexture(app.getRenderer(), "bogos/guy.bmp");
+    app.setPlayer(player);
+
     gn::StaticFont::initialize(app.getRenderer()); //< Initialize the font renderer.
 
     Goblin* g1 = new Goblin(Vec2(400, 100), 90, 1.0f, Color(255, 200, 100));
@@ -64,14 +68,34 @@ int main(int argc, char* argv[]) {
         app.Update();
         app.Render();
 
-        g1->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g1->getPosition());
-        g1->setAcceleration((g1->getAcceleration()-g1->getVelocity()*0.5f));
-        g2->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g2->getPosition());
-        g2->setAcceleration((g2->getAcceleration()-g2->getVelocity()*0.5f));
-        g3->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g3->getPosition());
-        g3->setAcceleration((g3->getAcceleration()-g3->getVelocity()*0.5f));
-        g4->setAcceleration((Vec2(app.getMouseX(), app.getMouseY()))-g4->getPosition());
-        g4->setAcceleration((g4->getAcceleration()-g4->getVelocity()*0.5f));
+        //g1->setAcceleration((player->getPosition())-g1->getPosition());
+        //g1->setAcceleration((g1->getAcceleration()-g1->getVelocity()*0.5f));
+        //g2->setAcceleration((player->getPosition())-g2->getPosition());
+        //g2->setAcceleration((g2->getAcceleration()-g2->getVelocity()*0.5f));
+        //g3->setAcceleration((player->getPosition())-g3->getPosition());
+        //g3->setAcceleration((g3->getAcceleration()-g3->getVelocity()*0.5f));
+        //g4->setAcceleration((player->getPosition())-g4->getPosition());
+        //g4->setAcceleration((g4->getAcceleration()-g4->getVelocity()*0.5f));
+
+        for (size_t i=0; i<app.getAllGoblins().size(); i++) {
+            Goblin* gobin = app.getAllGoblins()[i];
+            for (size_t j=0; j<app.getAllGoblins().size(); j++) {
+                if (i==j) {
+                    continue;
+                }
+                Vec2 v = (gobin->getPosition()-app.getAllGoblins()[j]->getPosition());
+                float s = v.lengthSquared();
+                float f = 100*64.f/(0.5+s*s/1000.f);
+                gobin->setVelocity(gobin->getVelocity()+v*f);
+
+            }
+            Vec2 v = (gobin->getPosition()-app.getPlayer()->getPosition());
+            float s = v.lengthSquared();
+            float f = 100*64.f/(0.5+s*s/1000.f);
+            gobin->setVelocity(gobin->getVelocity()+v*f);
+
+        }
+
 
         app.present();
 

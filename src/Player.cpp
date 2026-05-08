@@ -23,9 +23,7 @@ Player::Player(Vec2 pos, float r, float s, int maxHp_) {
 }
 
 Player::~Player() {
-    if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
-    }
+    if (texture) SDL_DestroyTexture(texture);
 }
 
 bool Player::loadTexture(SDL_Renderer* renderer, const char* path) {
@@ -47,27 +45,53 @@ bool Player::loadTexture(SDL_Renderer* renderer, const char* path) {
 }
 
 void Player::input(const Uint8 *keys) {
-
+    Vec2 inputDir = Vec2(0,0);
+    if (keys[SDL_SCANCODE_W]) inputDir.y -= 1;
+    if (keys[SDL_SCANCODE_S]) inputDir.y += 1;
+    if (keys[SDL_SCANCODE_A]) inputDir.x -= 1;
+    if (keys[SDL_SCANCODE_D]) inputDir.x += 1;
+    if (inputDir.lengthSquared() > 0) {
+        inputDir.normalize();
+        velocity = inputDir * speed;
+        facing = inputDir;
+    } else {
+        velocity = Vec2(0,0);
+    }
 }
 
 void Player::update(float dt) {
-
+    position += velocity * dt;
 }
 
 void Player::render(SDL_Renderer* renderer) {
+    SDL_Rect dest;
+    dest.x = (int) (position.x - radius);
+    dest.y = (int) (position.y - radius);
+    dest.w = (int) radius * 2;
+    dest.h = (int) radius * 2;
 
+    if (texture) {
+        SDL_RenderCopy(renderer, texture, nullptr, &dest);
+    }
+    else {
+        SDL_RenderFillRect(renderer, &dest);
+    }
 }
 
 void Player::setPosition(Vec2 pos) {
-
+    position = pos;
 }
 
 void Player::setVelocity(Vec2 vel) {
-
+    velocity = vel;
 }
 
 void Player::takeDamage(int damage) {
-
+    hp -= damage;
+    if (hp < 0) {
+        hp = 0;
+    }
 }
+
 
 
