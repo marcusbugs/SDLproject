@@ -19,6 +19,7 @@ class Player {
         int hp;
         int maxHp;
         SDL_Texture* texture;
+        bool attack;
 
     public:
         Player(Vec2 pos, float r, float s, int maxHp_);

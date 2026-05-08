@@ -80,9 +80,21 @@ void Application::Input() {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             isRunning = false;
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                for (size_t i = 0; i < goblins.size(); i++) {
+                    if ((goblins[i]->getPosition() - player->getPosition()).lengthSquared() < 100 * 100) {
+                        delete goblins[i];
+                        goblins.erase(goblins.begin()+i);
+
+                    }
+                }
+
+            }
         }
     }
     SDL_GetMouseState(&mouseX,&mouseY);
+
 }
 
 void Application::Update() {

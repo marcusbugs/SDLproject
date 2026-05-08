@@ -20,6 +20,7 @@ Player::Player(Vec2 pos, float r, float s, int maxHp_) {
     facing = Vec2(1,0);
     texture = nullptr;
 
+    attack = false;
 }
 
 Player::~Player() {
