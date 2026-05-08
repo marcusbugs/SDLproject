@@ -6,7 +6,7 @@
  *
  * Note:     Vec2 is intentionally a struct with public x and y.
  *           Encapsulation is preserved at the higher-level
- *           classes which have private data fields.
+ *           classes.
  */
 
 #ifndef _VEC2_H_

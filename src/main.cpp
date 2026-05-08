@@ -28,20 +28,27 @@ int main(int argc, char* argv[]) {
     Application app;
     Config cfg;
 
+
+    //load config if needed
     if (argc == 2) {
         if (!cfg.loadConfig(argv[1])) {
             return 1;
         }
     }
 
+
+    //initilize the app return 1 if fail will also cerr errors
     if (!app.Init(cfg)) return 1;
 
+    //create player
     Player* player = new Player(Vec2(800, 500), 100, 1000.0f, 100);
     player->loadTexture(app.getRenderer(), "bogos/guy.bmp");
     app.setPlayer(player);
 
     gn::StaticFont::initialize(app.getRenderer()); //< Initialize the font renderer.
 
+
+    //create some test gobins
     Goblin* g1 = new Goblin(Vec2(400, 100), 90, 1.0f, Color(255, 200, 100));
     g1->loadTexture(app.getRenderer(), "bogos/gobin.bmp");
     g1->setVelocity(Vec2(60, 0));
@@ -66,8 +73,9 @@ int main(int argc, char* argv[]) {
     while (app.IsRunning()) {
         app.Input();
         app.Update();
-        app.Render();
 
+
+        //texting stuff
         //g1->setAcceleration((player->getPosition())-g1->getPosition());
         //g1->setAcceleration((g1->getAcceleration()-g1->getVelocity()*0.5f));
         //g2->setAcceleration((player->getPosition())-g2->getPosition());
@@ -77,6 +85,8 @@ int main(int argc, char* argv[]) {
         //g4->setAcceleration((player->getPosition())-g4->getPosition());
         //g4->setAcceleration((g4->getAcceleration()-g4->getVelocity()*0.5f));
 
+
+        //colition forces loop
         for (size_t i=0; i<app.getAllGoblins().size(); i++) {
             Goblin* gobin = app.getAllGoblins()[i];
             for (size_t j=0; j<app.getAllGoblins().size(); j++) {
@@ -98,7 +108,8 @@ int main(int argc, char* argv[]) {
 
 
 
-
+        //present changes
+        app.Render();
         app.present();
 
     }
