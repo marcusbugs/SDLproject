@@ -21,6 +21,7 @@ struct Config {
     bool windowResizing = false;
 
     bool loadConfig(const char* path);
+    void updateWindowSize(SDL_Window* window);
 };
 
 

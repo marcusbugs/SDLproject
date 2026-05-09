@@ -115,8 +115,11 @@ void Application::Update() {
         if (pos.y - r < 0)   { pos.y = r;     vel.y = -0.5f*vel.y; }
         if (pos.y + r > h)   { pos.y = h - r; vel.y = -0.5f*vel.y; }
 
+
         goblins[i]->setPosition(pos);
         goblins[i]->setVelocity(vel);
+
+        goblins[i]->setAcceleration((goblins[i]->getAcceleration()-goblins[i]->getVelocity()*0.5f));
     }
 
 
@@ -146,7 +149,7 @@ void Application::Update() {
     if (fpsTimer >= FPS_SAMPLE_TIME) {
         smoothedFPS = frameCounter*(1.0f/FPS_SAMPLE_TIME);
         fpsTimer -= FPS_SAMPLE_TIME;
-        Goblin* g = new Goblin(Vec2(config.windowWidth/2,config.windowHeight/2), 64, 1, Color(10,10,10));
+        Goblin* g = new Goblin(Vec2(config.windowWidth/2,config.windowHeight/2), 96, 1, Color(10,10,10));
         if (frameCounter%3 == 0) {
             g->loadTexture(renderer, "bogos/freaky goblin.bmp");
         }
@@ -159,28 +162,13 @@ void Application::Update() {
         goblins.push_back(g);
         frameCounter = 0;
     }
+    config.updateWindowSize(window);
 
 }
 
 void Application::Render() {
     SDL_SetRenderDrawColor(renderer, config.backgroundColor.r, config.backgroundColor.g, config.backgroundColor.b, config.backgroundColor.a);
     SDL_RenderClear(renderer);
-
-    //HUD
-    std::stringstream GUI;
-    if (config.showStats) {
-        GUI << "FPS: " << smoothedFPS << std::endl; // fps
-        // mouse pos
-        GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
-        gn::StaticFont::setColor(255, 255, 255);
-        gn::StaticFont::setScale(3);
-        gn::StaticFont::render(
-            renderer,
-            GUI.str().c_str(),
-            {15,15}
-        );
-    }
-
 
     for (size_t i = 0; i < goblins.size(); i++) {
         goblins[i]->render(renderer);
@@ -189,6 +177,23 @@ void Application::Render() {
     if (player != nullptr) {
         player->render(renderer);
     }
+
+    //HUD
+    std::stringstream GUI;
+    if (config.showStats) {
+        GUI << "FPS: " << smoothedFPS << std::endl; // fps
+        // mouse pos
+        GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
+    }
+    GUI << "GOBINS LEFT: " << goblins.size() <<std::endl;
+    gn::StaticFont::setColor(255, 255, 255);
+    gn::StaticFont::setScale(3);
+    gn::StaticFont::render(
+        renderer,
+        GUI.str().c_str(),
+        {15,15}
+    );
+
 }
 
 void Application::present() {

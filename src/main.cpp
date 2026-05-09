@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
         //texting stuff
         //g1->setAcceleration((player->getPosition())-g1->getPosition());
-        //g1->setAcceleration((g1->getAcceleration()-g1->getVelocity()*0.5f));
+        // /g1->setAcceleration((g1->getAcceleration()-g1->getVelocity()*0.5f));
         //g2->setAcceleration((player->getPosition())-g2->getPosition());
         //g2->setAcceleration((g2->getAcceleration()-g2->getVelocity()*0.5f));
         //g3->setAcceleration((player->getPosition())-g3->getPosition());
@@ -96,13 +96,13 @@ int main(int argc, char* argv[]) {
                 Vec2 v = (gobin->getPosition()-app.getAllGoblins()[j]->getPosition());
                 float s = v.lengthSquared();
                 float f = 100*64.f/(0.5+s*s/1000.f);
-                gobin->setVelocity(gobin->getVelocity()+v*f);
+                gobin->setVelocity(gobin->getVelocity()+v*f*app.getDeltaTime()*120);
 
             }
             Vec2 v = (gobin->getPosition()-app.getPlayer()->getPosition());
             float s = v.lengthSquared();
             float f = 100*64.f/(0.5+s*s/1000.f);
-            gobin->setVelocity(gobin->getVelocity()+v*f);
+            gobin->setVelocity(gobin->getVelocity()+v*f*app.getDeltaTime()*120);
 
         }
 

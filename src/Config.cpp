@@ -77,3 +77,7 @@ bool Config::loadConfig(const char* path) {
 
     return true;
 }
+
+void Config::updateWindowSize(SDL_Window *window) {
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+}
