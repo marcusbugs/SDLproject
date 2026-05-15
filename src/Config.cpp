@@ -72,7 +72,6 @@ bool Config::loadConfig(const char* path) {
             std::cerr << "Unknown key: " << key << std::endl;
         }
 
-
     }
 
     return true;

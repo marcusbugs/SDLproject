@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     if (!app.Init(cfg)) return 1;
 
     //create player
-    Player* player = new Player(Vec2(800, 500), 100, 1000.0f, 100);
+    Player* player = new Player(Vec2(800, 500), 80, 1000.0f, 100);
     player->loadTexture(app.getRenderer(), "bogos/guy.bmp");
     app.setPlayer(player);
 
