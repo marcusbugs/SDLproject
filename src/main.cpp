@@ -22,14 +22,17 @@
 #include "Vec2.hpp"
 #include "Goblin.hpp"
 #include "../gorbie/StaticFont.hpp"
-
+#include <random>
 
 int main(int argc, char* argv[]) {
     Application app;
     Config cfg;
+    std::random_device rd;
 
-
-    //load config if needed
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1, 4);
+    std::uniform_int_distribution<> distr2(1, 100);
+    //load config i f needed
     if (argc == 2) {
         if (!cfg.loadConfig(argv[1])) {
             return 1;
@@ -46,31 +49,27 @@ int main(int argc, char* argv[]) {
     app.setPlayer(player);
 
     gn::StaticFont::initialize(app.getRenderer()); //< Initialize the font renderer.
+    int num_goblins = 10;
+    for (int i=0; i< num_goblins; i++) {
+        int rand_gob = distr(gen);
+        Goblin* g = new Goblin(Vec2((app.getConfig().windowWidth/100)*distr2(gen),(app.getConfig().windowHeight/100)*distr2(gen)), 96, 1, Color(10,10,10));
+        if (rand_gob == 1) {
+            g->loadTexture(app.getRenderer(), "bogos/freaky goblin.bmp");
+        }
+        if (rand_gob == 2) {
+            g->loadTexture(app.getRenderer(), "bogos/normal_gobbb.bmp");
+        }
+        if (rand_gob == 3) {
+            g->loadTexture(app.getRenderer(), "bogos/gobin2.bmp");
+        }
+        if (rand_gob == 4) {
+            g->loadTexture(app.getRenderer(), "bogos/gobin.bmp");
+        }
+        app.addGoblin(g);
+    }
 
-
-    //create some test gobins
-    Goblin* g1 = new Goblin(Vec2(400, 100), 90, 1.0f, Color(255, 200, 100));
-    g1->loadTexture(app.getRenderer(), "bogos/gobin.bmp");
-    g1->setVelocity(Vec2(60, 0));
-    app.addGoblin(g1);
-
-    Goblin* g2 = new Goblin(Vec2(800, 200), 80, 1.0f, Color(100, 255, 200));
-    g2->loadTexture(app.getRenderer(), "bogos/gobin2.bmp");
-    g2->setVelocity(Vec2(-40, 30));
-    app.addGoblin(g2);
-
-    Goblin* g3 = new Goblin(Vec2(400, 500), 100, 1.0f, Color(100, 255, 200));
-    g3->loadTexture(app.getRenderer(), "bogos/normal_gobbb.bmp");
-    g3->setVelocity(Vec2(50, -10));
-    app.addGoblin(g3);
-
-    Goblin* g4 = new Goblin(Vec2(300, 800), 70, 1.0f, Color(100, 255, 200));
-    g4->loadTexture(app.getRenderer(), "bogos/freaky goblin.bmp");
-    g4->setVelocity(Vec2(10, -110));
-    app.addGoblin(g4);
-
-
-    while (app.IsRunning()) {
+    bool win = false;
+    while (app.IsRunning() && !win) {
         app.Input();
         app.Update();
 
@@ -107,11 +106,24 @@ int main(int argc, char* argv[]) {
         }
 
 
-
         //present changes
         app.Render();
         app.present();
-
+        if (app.getAllGoblins().size() == 0) { win = true; }
+    }
+    while (app.IsRunning()) {
+        app.Input();
+        app.Render();
+        std::stringstream ss;
+        ss << "Time: " << (app.getTime())/1000.0f << "Seconds" << std::endl;
+        gn::StaticFont::setColor(255, 255, 255);
+        gn::StaticFont::setScale(10);
+        gn::StaticFont::render(
+            app.getRenderer(),
+            ss.str().c_str(),
+            {app.getConfig().windowWidth/2,app.getConfig().windowHeight/3}
+        );
+        app.present();
     }
 
     gn::StaticFont::destroy();

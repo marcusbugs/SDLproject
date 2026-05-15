@@ -59,6 +59,8 @@ public:
     std::vector<Goblin*> getAllGoblins();
     float getDeltaTime();
     int getFrameRate();
+    Config getConfig() {return config;};
+    Uint32 getTime() {return lastTime;};
 
     void setPlayer(Player* p);
     Player* getPlayer() const;
