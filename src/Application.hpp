@@ -21,6 +21,7 @@
 #include "Config.hpp"
 #include "Goblin.hpp"
 #include "Vec2.hpp"
+#include "KillStack.hpp"
 
 const float FPS_SAMPLE_TIME = 2;
 
@@ -43,6 +44,9 @@ private:
     int smoothedFPS = 0;
     int frameCounter = 0;
     float fpsTimer = 0.0f;
+
+    KillStack killStack;
+    int       killCount = 0;
 public:
     Application() = default;
     ~Application();
@@ -64,6 +68,9 @@ public:
 
     void setPlayer(Player* p);
     Player* getPlayer() const;
+
+    const KillStack& getKillStack() const { return killStack; }
+    int getKillCount() const { return killCount; }
 
     int getMouseX() const {return mouseX; };
     int getMouseY() const {return mouseY; };

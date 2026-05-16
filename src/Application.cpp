@@ -84,12 +84,13 @@ void Application::Input() {
             if (event.button.button == SDL_BUTTON_LEFT) {
                 for (size_t i = 0; i < goblins.size(); i++) {
                     if ((goblins[i]->getPosition() - player->getPosition()).lengthSquared() < 100 * 100) {
+
+                        killCount++;
+                        killStack.push(killCount, SDL_GetTicks());
                         delete goblins[i];
                         goblins.erase(goblins.begin()+i);
-
                     }
                 }
-
             }
         }
     }
@@ -185,7 +186,14 @@ void Application::Render() {
         // mouse pos
         GUI << "MOUSE: " << mouseX << ", " << mouseY << std::endl;
     }
-    GUI << "GOBINS LEFT: " << goblins.size() <<std::endl;
+    GUI << "GOBINS LEFT: " << goblins.size() << std::endl;
+    GUI << "KILLS: " << killCount << std::endl;
+    if (killStack.size() > 0) {
+        Uint32 ageMs = SDL_GetTicks() - killStack.peekTime();
+        GUI << "LAST KILL: #" << killStack.peekNumber()
+            << " (" << (ageMs / 1000) << "s ago)" << std::endl;
+    }
+
     gn::StaticFont::setColor(255, 255, 255);
     gn::StaticFont::setScale(3);
     gn::StaticFont::render(
