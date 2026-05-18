@@ -1,7 +1,8 @@
 /*
  * Author:   Marcus Cassell
  * Date:     April 30, 2026
- * Purpose:  CSCI 221 Final Project -- implementation of the Goblin class.
+ * Purpose:  CSCI 221 Final Project
+ *           implementation of the Goblin class.
  *
  */
 
@@ -18,6 +19,7 @@ Goblin::Goblin(Vec2 pos, float r, float m, Color c) {
     mass = m;
 }
 
+// setters and getters
 Color Goblin::getColor() const {
     return color;
 }
@@ -53,6 +55,7 @@ void Goblin::setAcceleration(Vec2 a) {
     acceleration = a;
 }
 
+// draw texture on goblin
 void Goblin::render(SDL_Renderer *renderer) const {
     SDL_Rect rect;
     rect.x = (int)(position.x-radius);
@@ -67,6 +70,7 @@ void Goblin::render(SDL_Renderer *renderer) const {
     SDL_RenderFillRect(renderer, &rect);
 }
 
+//update pos with eulers method
 void Goblin::update(float dt) {
     velocity += acceleration * dt;
     position += velocity * dt;
@@ -79,6 +83,7 @@ Goblin::~Goblin() {
     }
 }
 
+// load goblin texture
 bool Goblin::loadTexture(SDL_Renderer* renderer, const char* path) {
     SDL_Surface* surface = SDL_LoadBMP(path);
     if (surface == nullptr) {

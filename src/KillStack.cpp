@@ -3,6 +3,7 @@
  * Date:     May 14, 2026
  * Purpose:  CSCI 221 Final Project -- implementation of KillStack.
  *
+ *This stores kill time data to keep track in HUD
  * Linked list stack
  */
 

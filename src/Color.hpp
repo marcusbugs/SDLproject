@@ -6,6 +6,7 @@
  *
  * Note:     Color is a plain-data struct with public r, g, b, a.
  *           Encapsulation is preserved at the higher-level classes.
+ *
 */
 
 #ifndef _COLOR_H_

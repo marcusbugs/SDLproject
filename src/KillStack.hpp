@@ -4,6 +4,7 @@
  * Purpose:  CSCI 221 Final Project
  *
  * Linked list stack
+ * This stored kill time data to keep track in HUD
  */
 
 #ifndef _KILLSTACK_H_

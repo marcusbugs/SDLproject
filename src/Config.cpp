@@ -1,6 +1,11 @@
-//
-// Created by MJC11 on 5/4/2026.
-//
+/*
+ * Author:   Marcus Cassell
+ * Date:     May 4, 2026
+ * Purpose:  CSCI 221 Final Project
+ *           Config struct holds config data
+ *
+ */
+
 #include "Color.hpp"
 #include "Config.hpp"
 
@@ -10,10 +15,13 @@
 #include <cctype>
 #include <fstream>
 
+
+// helper function
 static bool parseBool(const std::string& value) {
     return (value == "true" || value == "1" || value == "yes" || value == "Y");
 }
 
+// this reads the config file with fstream
 bool Config::loadConfig(const char* path) {
     std::ifstream file(path);
     if(!file.is_open()) {
@@ -33,10 +41,10 @@ bool Config::loadConfig(const char* path) {
         }
         line = clean;
 
-        if (line.empty() || line[0] == '#') { //skip # or empty
+        if (line.empty() || line[0] == '#') { //skip # or empty lines
             continue;
         }
-
+        // find = sign to find a config assignment
         size_t pos = line.find('=');
         if (pos == std::string::npos) {
             std::cerr << "Line has no =" << line <<std::endl;
@@ -77,6 +85,8 @@ bool Config::loadConfig(const char* path) {
     return true;
 }
 
+
+// updates window size if you resize window
 void Config::updateWindowSize(SDL_Window *window) {
     SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 }
